@@ -1,0 +1,59 @@
+Status 
+- [ ] Task4
+- [ ] Task5
+- [ ] Task6
+- [ ] Task7
+- [ ] Task8
+- [x] Task3
+- [x] Task2
+- [x] Task1
+
+
+Task 1: 
+Create an appealing landing page with hero section and trust indicators
+Description :
+Build the main entry point (App.tsx) with an eye-catching hero section featuring a high-resolution background image of a happy customer with a plumber/electrician. Include a dynamic headline ('Affordable, Reliable & Quick Service for Your Home Repairs!'), prominent CTA button with hover effect, and trust indicators (5-star ratings, 24/7 availability, licensed professionals). Definition of done: Visual landing page with all key elements that creates a strong first impression.
+
+
+Task 2: 
+Implement service section with plumbing and electrical service options
+
+Description :
+Add a services section to the landing page that clearly presents the two main service options (Plumbing and Electrical) with descriptive icons, brief text explaining each service, and 'Book Now' buttons that will link to the respective booking pages. Include smooth animations when hovering over service cards. Definition of done: Services section with visual distinction between plumbing and electrical options and working navigation links.
+
+Task 3 : 
+Create reusable UI components for consistent design throughout the app
+
+Description : 
+Develop a set of reusable UI components including buttons (primary, secondary), form inputs, service cards, and testimonial cards. Implement consistent styling using Tailwind CSS with the light theme. Add micro-animations with Framer Motion for interactive elements. Definition of done: Library of styled components that can be reused across pages with consistent look and feel.
+
+Task4: 
+Develop the electrician booking page with quote form and contact options
+
+Description : 
+Create the electrician booking page with two main sections: a dynamic quote form with fields for issue type (with auto-suggestions), urgency, location, and contact details; and a 'Contact Us Instantly' section with WhatsApp, Email, and SMS buttons. Include live pricing estimate preview as users fill the form. Definition of done: Functional booking page that accurately collects and validates user inputs.
+
+Task 5: 
+Implement the plumber booking page with similar structure to electrician page
+
+Description :
+Create the plumber booking page following the same structure as the electrician page but with plumbing-specific options in dropdowns (pipe leakage, bathroom fittings, water heater repair, etc.). Include the Google Maps integration for location-based service availability. Definition of done: Functional plumbing service booking page with plumbing-specific options and map integration.
+
+Task 6:
+Add a testimonial carousel to showcase positive customer reviews
+
+Description :
+Implement a testimonial carousel on the landing page to display positive customer reviews with photos, ratings, and testimonial text. Use Framer Motion for smooth slide transitions. Include 4-5 testimonials with diverse repair scenarios to build trust. Definition of done: Working carousel that automatically rotates through testimonials with manual navigation options.
+
+
+Task 7: 
+Create backend API for handling booking form submissions
+
+Description :
+Develop a backend API to handle form submissions from both booking pages. The API should validate inputs, calculate estimated pricing based on service type and urgency, and store the booking requests. Create appropriate data models for plumbing and electrical service requests. Definition of done: Functioning API that successfully processes and stores booking submissions with appropriate validation.
+
+Task 8 : 
+Implement success and error handling with animated feedback
+
+Description :
+Add animated success messages after submitting booking requests, showing confirmation details and next steps. Implement error handling with helpful validation messages on forms. Include loading animations while data is being processed. Definition of done: Complete user feedback system for all form interactions that clearly communicates success or issues requiring attention.
