@@ -1,0 +1,6 @@
+select {
+  appearance: none; 
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06 0L10 10.44l3.71-3.23a.75.75 0 111.06 1.06l-4.25 3.5a.75.75 0 01-1.06 0l-4.25-3.5z"/></svg>') no-repeat right 0.5em center; 
+  background-size: 1.4em; 
+  padding: 0.5em 2em 0.5em 1em; 
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Navbar } from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 interface QuoteFormData {
   issueType: string;
@@ -36,8 +37,10 @@ const ElectricianBooking: React.FC = () => {
     description: ''
   });
 
-  const [estimatedPrice, setEstimatedPrice] = useState<number>(0);
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const navigate = useNavigate(); 
   useEffect(() => {
     // Calculate estimated price based on urgency and issue type
     let basePrice = 100;
@@ -51,12 +54,7 @@ const ElectricianBooking: React.FC = () => {
       const complexityFactor = issueTypes.indexOf(formData.issueType) * 10;
       basePrice += complexityFactor;
     }
-    const estimatedPrice = basePrice * urgencyMultiplier[formData.urgency];
-    setEstimatedPrice(estimatedPrice);
-    setFormData(prev => ({
-      ...prev,
-      "estimatedPrice": estimatedPrice
-    }));
+    
   }, [formData.issueType, formData.urgency]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -69,8 +67,13 @@ const ElectricianBooking: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const response = await fetch('https://formspree.io/f/xjkyavon', {
+    setLoading(true); 
+    setSuccessMessage(''); 
+    setErrorMessage('');
+    try{
+      // Add here sleep for 2 seconds
+      await new Promise(resolve => setTimeout(resolve, 10000));
+      const response = await fetch('https://formspree.io/f/xjkyavon', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -80,8 +83,8 @@ const ElectricianBooking: React.FC = () => {
     });
 
     if (response.ok) {
-        alert('Your quote request has been submitted successfully!');
-        // Reset form
+      setSuccessMessage('Your quote request has been submitted successfully!'); // Set success message
+      // Reset form
         setFormData({
             issueType: '',
             urgency: 'medium',
@@ -92,14 +95,45 @@ const ElectricianBooking: React.FC = () => {
             description: ''
         });
     } else {
-        alert('There was an error submitting your request. Please try again later.');
+        throw new Error('There was an error submitting your request. Please try again later.');
     }
+    }
+    catch (error) {
+      console.error('Error submitting form:', error);
+      setErrorMessage('There was an error submitting your request. Please try again later.'); // Set error message
+    } finally {
+      setLoading(false); // Set loading to false
+    }
+    
 };
 
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-3 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        <div className="flex items-center justify-between mb-6 p-4 rounded-md">
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center text-gray-600 hover:text-gray-900 transition-all duration-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H3m0 0l6-6m-6 6l6 6" />
+            </svg>
+            Back
+          </button>
+          <button
+            onClick={() => navigate('/plumber')}
+            className="bg-black text-white py-2 px-4 hover:bg-gray-600 rounded-full transition-all duration-300 shadow-lg"
+          >
+           Book Plumber
+          </button>
+        </div>
         <div className="text-center">
           <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
             Electrician Service Booking
@@ -108,6 +142,7 @@ const ElectricianBooking: React.FC = () => {
             Get an instant quote and book your electrician service
           </p>
         </div>
+
 
         <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Quote Form Section */}
@@ -128,7 +163,7 @@ const ElectricianBooking: React.FC = () => {
                   name="issueType"
                   value={formData.issueType}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className="p-3  mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
                 >
                   <option value="">Select an issue type</option>
@@ -147,7 +182,7 @@ const ElectricianBooking: React.FC = () => {
                   name="urgency"
                   value={formData.urgency}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className="p-3 pr-10 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
                 >
                   <option value="low">Low (Within 24 hours)</option>
@@ -233,26 +268,25 @@ const ElectricianBooking: React.FC = () => {
                   placeholder="Describe your issue in detail"
                 />
               </div>
-
-              <div className="bg-gray-50 p-4 rounded-md">
-                <h3 className="text-lg font-medium text-gray-900">Estimated Price</h3>
-                <p className="mt-2 text-3xl font-bold text-blue-600">
-                  ${estimatedPrice.toFixed(2)}
-                </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  This is an estimate. Final price may vary based on actual work required.
-                </p>
-              </div>
-
               <motion.button
                 type="submit"
                 className="w-full bg-black text-white py-3 px-6 rounded-full font-medium shadow-lg hover:bg-gray-800 transition-all duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Submit Quote Request
+                {loading ? 'Submitting...' : 'Submit Quote Request'} 
               </motion.button>
             </form>
+            {successMessage && ( // Display success message
+              <div className="mt-4 text-green-600">
+                {successMessage}
+              </div>
+            )}
+            {errorMessage && ( // Display error message
+              <div className="mt-4 text-red-600">
+                {errorMessage}
+              </div>
+            )}
           </motion.div>
 
           {/* Contact Options Section */}

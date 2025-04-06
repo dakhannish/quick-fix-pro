@@ -34,6 +34,7 @@ Description :
 Create the electrician booking page with two main sections: a dynamic quote form with fields for issue type (with auto-suggestions), urgency, location, and contact details; and a 'Contact Us Instantly' section with WhatsApp, Email, and SMS buttons. Include live pricing estimate preview as users fill the form. Definition of done: Functional booking page that accurately collects and validates user inputs.
 
 Task 5: 
+
 Implement the plumber booking page with similar structure to electrician page
 
 Description :

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const issueTypes = [
   'Pipe Leakage',
@@ -25,7 +26,7 @@ const PlumberBooking: React.FC = () => {
     description: ''
   });
 
-  const [estimatedPrice, setEstimatedPrice] = useState<number>(0);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     let basePrice = 100;
@@ -40,7 +41,6 @@ const PlumberBooking: React.FC = () => {
       basePrice += complexityFactor;
     }
 
-    setEstimatedPrice(basePrice * urgencyMultiplier[formData.urgency]);
   }, [formData.issueType, formData.urgency]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -82,7 +82,30 @@ const PlumberBooking: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <div className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+      <div className="flex-grow py-3 px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-6 p-4 rounded-md">
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center text-gray-600 hover:text-gray-900 transition-all duration-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H3m0 0l6-6m-6 6l6 6" />
+            </svg>
+            Back
+          </button>
+          <button
+            onClick={() => navigate('/electrician')}
+            className="bg-black text-white py-2 px-4 rounded-full hover:bg-gray-600 transition-all duration-300"
+          >
+           Book Electrician
+          </button>
+        </div>
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
             Plumber Service Booking
@@ -110,7 +133,7 @@ const PlumberBooking: React.FC = () => {
                   name="issueType"
                   value={formData.issueType}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className="p-3  mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
                 >
                   <option value="">Select an issue type</option>
@@ -129,7 +152,7 @@ const PlumberBooking: React.FC = () => {
                   name="urgency"
                   value={formData.urgency}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className="p-3  mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
                 >
                   <option value="low">Low (Within 24 hours)</option>
@@ -214,16 +237,6 @@ const PlumberBooking: React.FC = () => {
                   className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Describe your issue in detail"
                 />
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-md">
-                <h3 className="text-lg font-medium text-gray-900">Estimated Price</h3>
-                <p className="mt-2 text-3xl font-bold text-blue-600">
-                  ${estimatedPrice.toFixed(2)}
-                </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  This is an estimate. Final price may vary based on actual work required.
-                </p>
               </div>
 
               <motion.button
